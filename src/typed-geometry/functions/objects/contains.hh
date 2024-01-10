@@ -498,10 +498,11 @@ template <class ScalarT>
     return true;
 }
 
-[[ nodiscard ]] constexpr bool contains(pgon2 const& pgon, pos2 p, dont_deduce<float> eps = float(0)){
+template <class ScalarT>
+[[nodiscard]] constexpr bool contains(pgon<2,ScalarT> const& pgon, pos<2, ScalarT> p/*, dont_deduce<float> eps = ScalarT(0)*/){
 
     int count = 0;
-    for (int i = 0; i < pgon.size(); i++){
+    for (size_t i = 0; i < pgon.size(); i++){
         auto p1 = pgon[i];
         auto p2 = pgon[(i+1)%pgon.size()];
 

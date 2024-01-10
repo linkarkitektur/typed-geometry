@@ -43,5 +43,11 @@ struct pgon : public pline<D, ScalarT>
     using pos_t = pos<D, ScalarT>;
     using pline_t = pline<D, ScalarT>;
 
+    constexpr pgon() = default;
+    //TODO: Add check to make sure the last point is not the same as the first point.
+    // This is assumed and should not be stored twice.
+    constexpr pgon(cc::vector<pos_t> const& pts_) : pline_t(pts_) {}
+    constexpr pgon(std::vector<pos_t> const& pts_) : pline_t(pts_) {}
+
 };
 } // namespace tg
