@@ -16,6 +16,7 @@
 #include <typed-geometry/types/objects/pyramid.hh>
 #include <typed-geometry/types/objects/sphere.hh>
 #include <typed-geometry/types/objects/triangle.hh>
+#include <typed-geometry/types/objects/polygon.hh>
 
 #include "distance.hh"
 
@@ -495,5 +496,24 @@ template <class ScalarT>
             return false;
 
     return true;
+}
+
+[[ nodiscard ]] constexpr bool contains(pgon2 const& pgon, pos2 p, dont_deduce<float> eps = float(0)){
+
+    int count = 0;
+    for (int i = 0; i < pgon.size(); i++){
+        auto p1 = pgon[i];
+        auto p2 = pgon[(i+1)%pgon.size()];
+
+        if (p1.y > p2.y) std::swap(p1, p2);
+
+        if (p.y <= p1.y || p.y > p2.y) continue;
+
+        auto m = (p2.x - p1.x) / (p2.y - p1.y);
+        auto x = p1.x + m * (p.y - p1.y);
+
+        if (p.x <= x) count++;
+    }
+    return count % 2 == 0;
 }
 } // namespace tg
